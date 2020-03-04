@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>First demo</title>
+    <script src="vue.js"></script>
+    <style>
+        @font-face {
+            font-family: 'iconfont';
+            /* project id 1575192 */
+            src: url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.eot');
+            src: url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.eot?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.woff2') format('woff2'), url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.woff') format('woff'), url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.ttf') format('truetype'), url('//at.alicdn.com/t/font_1575192_v515cmq2c6b.svg#iconfont') format('svg');
+        }
+        
+        #app {
+            width: 150px;
+            height: 42px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        
+        #app button {
+            border: none;
+            height: 40px;
+            width: 50px;
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+        }
+        
+        #app .add {
+            float: right;
+        }
+        
+        #app span {
+            display: inline-block;
+            width: 50px;
+            height: 40px;
+            text-align: center;
+            margin-left: -9px;
+        }
+        
+        #mask {
+            width: 700px;
+            height: 500px;
+            margin: 20px auto;
+            background: #ccc;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            position: relative;
+        }
+        
+        h2 {
+            width: 700px;
+            height: 50px;
+            font-size: 20px;
+            padding: 10px 0 0 20px;
+            margin: 0;
+            background: #00fcfc;
+            box-sizing: border-box;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+        
+        #mask img {
+            width: 690px;
+            height: 440px;
+            display: block;
+            margin: 5px;
+            box-sizing: border-box;
+        }
+        
+        #mask a img {
+            width: 50px;
+            height: 40px;
+            position: absolute;
+            top: 50%;
+        }
+        
+        .left img {
+            left: 0;
+        }
+        
+        .right img {
+            right: 0;
+        }
+        
+        #todoapp {
+            width: 400px;
+            background-color: #f5f5f5;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header h1 {
+            font-weight: normal;
+            color: #00fcfc;
+            text-align: center;
+            padding: 15px 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        
+        .main {
+            margin: 0 20px;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 2px 3px 3px #ccc;
+            border-radius: 5px;
+        }
+        
+        .main input {
+            border: none;
+            border: 1px solid #ccc;
+            height: 35px;
+            width: 100%;
+            outline: none;
+            padding: 0 15px;
+            margin: 0;
+            box-sizing: border-box;
+            border-radius: 5px;
+        }
+        
+        .main ul {
+            padding: 0;
+            margin: 10px 0 0 0;
+            background: #00fcfc;
+            border-radius: 5px;
+        }
+        
+        .main ul li {
+            height: 40px;
+            line-height: 40px;
+            list-style: none;
+            padding: 0 10px;
+            font-size: 18px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #fff;
+            cursor: pointer;
+        }
+        
+        .main ul li button {
+            background: none;
+            border: none;
+        }
+        
+        .iconfont {
+            display: none;
+            float: right;
+            cursor: pointer;
+            font-family: "iconfont" !important;
+            font-size: 16px;
+            font-style: normal;
+            -webkit-font-smoothing: antialiased;
+            -webkit-text-stroke-width: 0.2px;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .main ul li:hover .iconfont {
+            display: block;
+        }
+        
+        .main .bottom {
+            margin: 10px;
+            font-size: 16px;
+        }
+        
+        .main .bottom .right {
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="app">
+        <button @click="sub">-</button>
+        <span>{{num}}</span>
+        <button class="add" @click="add">+</button>
+    </div>
+    <!-- 图片切换案例知识点
+    1.列表数据使用数组保存
+    2.v-bind指令可以设置元素属性，比如src
+    3.v-show和v-if都可以切换元素的显示状态，频繁切换用v-show -->
+    <div id="mask">
+        <!-- 标题 -->
+        <h2>灌篮高手</h2>
+        <img :src="imgArr[index]" alt="">
+        <!-- 左箭头 -->
+        <a href="javascript:;" class="left" @click="perv" v-show="index!=0">
+            <img src="./img/left.png" alt="">
+        </a>
+        <!-- 右箭头 -->
+        <a href="javascript:;" class="right" @click="next" v-show="index<imgArr.length-1">
+            <img src="./img/right.png" alt="">
+        </a>
+    </div>
+    <!-- 记事本案例 -->
+    <!-- 知识点：1.新增功能 使用v-for,v-model,v-on指令
+                2.删除  1）数据改变，和数据绑定的元素同步改变
+                        2）事件的自定义参数
+                        3）splice方法：删除
+                3.统计 基于数据的开发方式，v-text指令简写模式
+                4.清空
+                5.隐藏
+            总结：列表结构可以通过v-for指令结合数据生成
+                v-on结合事件修饰符可以对事件进行限制，比如.enter
+                v-on在绑定事件时可以传递自定义参数
+                通过v-model可以快速的设置和获取表单元素的值
+                基于数据的开发方式-->
+    <section id="todoapp">
+        <header class="header">
+            <h1>小黑记事本</h1>
+        </header>
+        <div class="main">
+            <input type="text" placeholder="请输入任务" v-model="putValue" @keyup.enter="add">
+            <ul>
+                <li v-for="(item,index) in list">
+                    <span>{{index+1}}.</span>
+                    <label>{{item}}</label>
+                    <i class="iconfont" @click="remove(index)">&#xe606;</i>
+                </li>
+            </ul>
+            <div class="bottom">
+                <span class="left" v-if="list.length!=0"> 
+                    <strong>{{list.length}}</strong>&nbsp;items
+                </span>
+                <span class="right" @click="clear" v-show="list.length!=0">
+                    Clear
+                </span>
+            </div>
+        </div>
+        <footer class="footer">
+        </footer>
+    </section>
+
+
+    <script>
+        var vm = new Vue({
+            el: "#app", //元素element
+            data: {
+                message: "hello vue!",
+                num: 0
+            },
+            methods: {
+                add: function() {
+                    if (this.num < 10) {
+                        this.num++;
+                    } else {
+                        alert('stop');
+                    }
+                },
+                sub: function() {
+                    if (this.num > 0) {
+                        this.num--;
+                    } else {
+                        alert('stop');
+                    }
+                }
+            }
+        });
+
+        var app = new Vue({
+            el: "#mask",
+            data: {
+                imgArr: [
+                    "./img/1.jpg",
+                    "./img/3.jpg",
+                    "./img/4.jpg",
+                    "./img/5.jpg",
+                    "./img/6.jpg",
+                    "./img/7.jpeg",
+                    "./img/8.jpg",
+                    "./img/9.jpg",
+                    "./img/10.jpeg",
+                    "./img/10.jpg",
+                ],
+                index: 0
+            },
+            methods: {
+                perv: function() {
+                    this.index--;
+                },
+                next: function() {
+                    this.index++;
+                }
+            }
+        })
+
+        var book = new Vue({
+            el: "#todoapp",
+            data: {
+                list: ["每天7杯水", "学习绘画", "读书"],
+                putValue: "学习代码"
+            },
+            methods: {
+                add: function() {
+                    this.list.push(this.putValue);
+                },
+                remove: function(index) {
+                    this.list.splice(index, 1);
+                },
+                clear: function() {
+                    this.list = [];
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

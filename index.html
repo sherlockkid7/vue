@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hey! music</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/xhr.css">
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div class="container clearfix">
+                <div class="head_title">
+                    <h1>Listen.音乐</h1>
+                    <span> 凡音之起,由人心生也</span>
+                </div>
+                <div class="head_search">
+                    <input class="active" @keyup.enter="searchMusic" v-model="query" type="text" placeholder="歌手、歌曲、专辑名">
+                    <i class="iconfont icon-sousuo"></i>
+                </div>
+            </div>
+        </header>
+        <div class="main">
+            <div class="container clearfix">
+                <aside class="aside">
+                    <ul class="song_header">
+                        <li class="music_name">歌曲</li>
+                        <li class="music_author">歌手</li>
+                        <!-- <li class="music_timer">时长</li> -->
+                    </ul>
+                    <ul class="song_list">
+                        <li v-for="(item,index) in musicList" class="song-li clearfix">
+                            <div class="song_index item">
+                                <span>{{index+1}}</span>
+                            </div>
+                            <div class="song_name item">
+                                <a @click="playerMusic(item.id)" class="musicplay
+                                song_player"></a>
+                                <span>{{item.name}}</span>
+                                <i v-if="item.mvid!=0" class="iconfont icon-bofang1" @click="mvPlay(item.mvid)"></i>
+                            </div>
+                            <div class="songer item">
+                                {{item.artists[0].name}}
+                            </div>
+                            <!-- <div class="song_timer item">
+                                04:46
+                            </div> -->
+                        </li>
+                        <!-- <li class=" clearfix">
+                            <div class="song_index item">
+                                <span>1</span>
+                            </div>
+                            <div class="song_name item">
+                                <i class="iconfont  icon-bofang song_player"></i>
+                                <span>老友记</span>
+                                <i class="iconfont icon-bofang1"></i>
+                            </div>
+                            <div class="songer item">
+                                李荣浩
+                            </div>
+                            <div class="song_timer item">
+                                04:46
+                            </div>
+                        </li>
+                        <li class=" clearfix">
+                            <div class="song_index item">
+                                <span>1</span>
+                            </div>
+                            <div class="song_name item">
+                                <i class="iconfont  icon-bofang song_player"></i>
+                                <span>老友记</span>
+                                <i class="iconfont icon-bofang1"></i>
+                            </div>
+                            <div class="songer item">
+                                李荣浩
+                            </div>
+                            <div class="song_timer item">
+                                04:46
+                            </div>
+                        </li> -->
+                    </ul>
+                </aside>
+                <div class="xhr">
+                    <div class="hair">
+                        <div class="hair1"></div>
+                        <div class="hair2"></div>
+                    </div>
+                    <div class="body">
+                        <div class="eyes">
+                            <div class="eyesl">
+                                <div class="eyesl_black"></div>
+                                <div class="eyesl_white"></div>
+                            </div>
+                            <div class="eyesr">
+                                <div class="eyesr_black"></div>
+                                <div class="eyesr_white"></div>
+                            </div>
+                        </div>
+                        <div class="mouth"></div>
+                        <div class="trousers">
+                            <div class="trouserst">
+                                <div class="trouserst_beltl"></div>
+                                <div class="trouserst_beltr"></div>
+                            </div>
+                            <div class="trousersb"></div>
+                        </div>
+                    </div>
+                    <div class="hand">
+                        <div class="handl"></div>
+                        <div class="handr"></div>
+                    </div>
+                    <div class="foot">
+                        <div class="footl"></div>
+                        <div class="footr"></div>
+                    </div>
+                </div>
+                <div class="main_content">
+                    <div class="main_bg" :class="{playing:isPlaying}">
+                        <img :src="musicCover" alt="">
+                        <!-- <img src="./img/test.jpg" alt=""> -->
+                        <a class="main_music">
+                        </a>
+                    </div>
+                    <div class="music_txt">
+                        <h2 class="musicname">
+                            {{musicTxt}}
+                        </h2>
+                        <p>歌手：<a href="">{{musicSinger}}</a></p>
+                        <p>所属专辑：<a href="">{{musicEdi}}</a></p>
+                    </div>
+                    <div class="comment">
+                        <h3>精彩评论</h3>
+                        <ul class="comment_text">
+                            <li v-for="item in musicComments" class="clearfix">
+                                <div class="user">
+                                    <img :src="item.user.avatarUrl" alt="">
+                                </div>
+                                <div class="user_txt">
+                                    <div class="user_top">
+                                        <a href="">{{item.user.nickname}}</a>
+                                        <span>:{{item.content}}</span>
+                                    </div>
+                                    <div class="user_bottom">
+                                        <span></span>
+                                        <a href="">
+                                            <i class="iconfont icon-dianzan"></i> {{item.likedCount}}
+                                            <span>|</span> 回复
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- <li class="clearfix">
+                                <div class="user">
+                                    <img src="./img/user.jpg" alt="">
+                                </div>
+                                <div class="user_txt">
+                                    <div class="user_top">
+                                        <a href="">浓烟下的老康</a>
+                                        <span>:原作曲人的诠释，直戳人心。有人问过井上：为什么不让湘北夺冠。井上回答道：因为青春的梦想往往是不完美的。
+                                            我想，打动我们的也许不是这首歌，而是我们那不完美又值得怀念的青春。</span>
+                                    </div>
+                                    <div class="user_bottom">
+                                        <span>2015年2月1日</span>
+                                        <a href="">
+                                            <i class="iconfont icon-dianzan"></i>
+                                            (666)
+                                            <span>|</span>
+                                            回复
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <div class="user">
+                                    <img src="./img/user.jpg" alt="">
+                                </div>
+                                <div class="user_txt">
+                                    <div class="user_top">
+                                        <a href="">浓烟下的老康</a>
+                                        <span>:原作曲人的诠释，直戳人心。有人问过井上：为什么不让湘北夺冠。井上回答道：因为青春的梦想往往是不完美的。
+                                            我想，打动我们的也许不是这首歌，而是我们那不完美又值得怀念的青春。</span>
+                                    </div>
+                                    <div class="user_bottom">
+                                        <span>2015年2月1日</span>
+                                        <a href="">
+                                            <i class="iconfont icon-dianzan"></i>
+                                            (666)
+                                            <span>|</span>
+                                            回复
+                                        </a>
+                                    </div>
+                                </div>
+                            </li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="player">
+            <audio :src="musicUrl" @play="play" @pause="pause" controls="controls" autoplay="autoplay" loop="loop">
+                Your browser does not support the audio tag.
+            </audio>
+            <div class="wrap clearfix">
+                <div class="player_type playli">
+                    <a class="prev" href="javascript:void(0)"></a>
+                    <a class="center fa-play" href="javascript:void(0)">
+                    </a>
+                    <a class="next" href="javascript:void(0)"></a>
+                </div>
+                <div class="playler_pic playli">
+                    <img :src="musicCover" alt="">
+                </div>
+                <div class="player_progress playli clearfix">
+                    <div class="musictxt">
+                        <a href="">{{musicTxt}}</a>
+                        <!-- 需要设置长度超出隐藏 -->
+                        <span>&nbsp;&nbsp;{{musicSinger}}</span>
+                        <span class="pro_time">
+                            <em class="current">00:00</em>
+                            / <em class="total">00:00</em>
+                        </span>
+                        <div class="pro_flag">
+                            <div class="line">
+                                <div class="bar">
+                                    <div class="cur">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="player_icon">
+                    <a href="javascript:void(0)" class="store"></a>
+                    <a href="javascript:void(0)" class="share"></a>
+                    <a href="javascript:void(0)" class="sound">
+                        <div class="soundpro">
+                            <div class="sound-line">
+                                <div class="sound-bar">
+                                    <div class="sound-cur">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="javascript:void(0)" class="round"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="test_video" :class="{playmv:isShow}">
+        <div class="modal" @click="closeMv">
+            <video :src="mvUrl" controls="controls"></video>
+        </div>
+    </div>
+    <!-- <div class="test_audio">
+            <div class="audio_box">
+                <audio :src="musicUrl" controls="controls" autoplay="autoplay" loop="loop">
+                    Your browser does not support the audio tag.
+                </audio>
+            </div> -->
+    </div>
+    </div>
+    <div class="demolist">
+        <h3>tips:another demo</h3>
+        <ol>
+            <li>
+                <a href="./anthoer/vue.html" target="_blank">
+                基于vue的组件
+                </a>
+            </li>
+            <li>
+                <a href="./anthoer/weather.html" target="_blank">基于vue的天气查询</a>
+            </li>
+        </ol>
+    </div>
+    <script src="./js/vue.js"></script>
+    <!-- 官网提供的axios在线地址 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./js/jquery-1.12.2.js"></script>
+    <!-- <script src="./js/player.js"></script> -->
+    <!-- 自己写的js -->
+    <script src="./js/main.js"></script>
+
+    <script>
+        // 使用jquery写的js
+        // 计算时分秒
+        // var $audio = $("audio");
+        // var player = new Player($audio);
+        // var index = musicId;
+        // var music = musicUrl;
+        var audio = $("audio").get(0);
+
+        function computTime(time) {
+            // var h = Math.floor(time / 3600);
+            var m = Math.floor(time % 3600 / 60);
+            var s = Math.floor(time % 60);
+            return (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+        }
+        audio.oncanplay = function() {
+            // 获取歌曲总时长
+            var totalTime = computTime(audio.duration);
+            // console.log(totalTime);
+            $(".total").html(totalTime);
+        }
+
+
+        // 3. 进度条显示   当目前的播放位置已更改时
+        //  除了自己进行之外， 只要我们修改了 video.currentTime  就会执行 ontimeupdate
+        audio.ontimeupdate = function() {
+            // 我们需要知道当前的时间
+            // console.log(video.currentTime); 得到是秒数
+            // line 这个变色的盒子 宽度 =  当前的时间 / 总的时间  * 100 + % 
+            var w = audio.currentTime / audio.duration * 100 + '%';
+            $(".bar").css("width", w);
+            $(".cur").css("left", w);
+            $(".current").html(computTime(audio.currentTime));
+        }
+
+        audio.onended = function() {
+            audio.currentTime = 0;
+            audio.pause(); // pause 视频的方法  需要用dom  播放视频
+            $(".center").addClass("fa-play").removeClass("fa-pause");
+        }
+
+        // 音乐列表播放按钮事件的监听
+        $(".aside").delegate(".musicplay", "click", function() {
+            var $item = $(this).parents(".song-li");
+            $(this).toggleClass("musicpause");
+            // 复原其它的播放状态
+            $item.siblings().find(".musicplay").removeClass("musicpause");
+            // 同步底部栏播放状态
+            if ($(this).hasClass("musicpause")) {
+                // 可以播放的状态
+                $(".center").addClass("fa-pause");
+            } else {
+                audio.pause();
+                $(".center").removeClass("fa-pause");
+            }
+            //播放音乐
+            // player.playMusic($item.get(0).index, $item.get(0).music);
+        });
+    </script>
+</body>
+
+</html>

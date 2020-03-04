@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        body,
+        ul,
+        li,
+        h1,
+        input,
+        button {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #app h1 {
+            padding-top: 50px;
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+        
+        .search,
+        .searchtext {
+            width: 500px;
+            height: 34px;
+            margin: 20px auto 0;
+        }
+        
+        .search::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        
+        .search input {
+            height: 34px;
+            width: 400px;
+            outline: none;
+            box-sizing: border-box;
+            vertical-align: top;
+            padding: 0 10px;
+        }
+        
+        input:hover {
+            border: 1px solid #3385ff;
+        }
+        
+        .search .searinput {
+            float: left;
+            height: 34px;
+            width: 400px;
+            line-height: 34px;
+        }
+        
+        .search .searchbtn {
+            float: right;
+            height: 34px;
+            line-height: 34px;
+            width: 100px;
+            text-align: center;
+            background-color: #3385ff;
+            color: #fff;
+            font-size: 20px;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        
+        .searchtext {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+        
+        .searchtext a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .wealist {
+            width: 700px;
+            margin: 20px auto 0;
+        }
+        
+        .wealist ul {
+            margin: -5px;
+        }
+        
+        .wealist ul::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        
+        .wealist ul li {
+            float: left;
+            list-style: none;
+            width: 130px;
+            margin: 5px;
+            font-size: 14px;
+            border-right: 1px solid #ccc;
+            text-align: center;
+        }
+        
+        .wealist ul li:last-child {
+            border-right: none;
+        }
+        
+        .weastyle {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: brown;
+        }
+        
+        .weatemp {
+            font-size: 10px;
+            color: brown;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>天气通</h1>
+        <div class="search">
+            <div class="searinput">
+                <input @keyup.enter="searchWeather" v-model="city" type="text">
+            </div>
+            <div class="searchbtn">搜索</div>
+        </div>
+        <div class="searchtext">
+            <a href="javascript:void(0)" @click="handleClick('北京')">北京</a>
+            <a href="javascript:void(0)" @click="handleClick('上海')">上海</a>
+            <a href="javascript:void(0)" @click="handleClick('深圳')">深圳</a>
+            <a href="javascript:void(0)" @click="handleClick('广东')">广东</a>
+            <a href="javascript:void(0)" @click="handleClick('成都')">成都</a>
+        </div>
+        <div class="wealist">
+            <ul>
+                <li v-for="item in weatherList">
+                    <div class="weastyle">
+                        {{item.type}}
+                    </div>
+                    <div class="weatemp">
+                        <span>{{item.low}}</span>~
+                        <span>{{item.high}}</span>
+                    </div>
+                    <div class="date">
+                        {{item.date}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="vue.js"></script>
+    <!-- 官网提供的axios在线地址 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- 自己写的js -->
+    <script src="./weather.js"></script>
+</body>
+
+</html>

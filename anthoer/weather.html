@@ -8,6 +8,10 @@
     <title>Document</title>
 
     <style>
+        [v-cloak] {
+            display: none;
+        }
+        
         body,
         ul,
         li,
@@ -120,6 +124,18 @@
             color: brown;
             margin-bottom: 10px;
         }
+        
+        .demolist {
+            position: absolute;
+            right: 20%;
+            bottom: 50px;
+        }
+        
+        .demolist h3,
+        ol {
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
 
@@ -142,19 +158,32 @@
         <div class="wealist">
             <ul>
                 <li v-for="item in weatherList">
-                    <div class="weastyle">
+                    <div class="weastyle" v-cloak>
                         {{item.type}}
                     </div>
                     <div class="weatemp">
-                        <span>{{item.low}}</span>~
-                        <span>{{item.high}}</span>
+                        <span v-cloak>{{item.low}}</span>~
+                        <span v-cloak>{{item.high}}</span>
                     </div>
-                    <div class="date">
+                    <div class="date" v-cloak>
                         {{item.date}}
                     </div>
                 </li>
             </ul>
         </div>
+    </div>
+    <div class="demolist">
+        <h3>tips:another demo</h3>
+        <ol>
+            <li>
+                <a href="./music app/index.html" class="musicdemo">
+                基于vue的简易音乐播放器
+                </a>
+            </li>
+            <li>
+                <a href="./vue.html">基于vue的组件</a>
+            </li>
+        </ol>
     </div>
     <script src="vue.js"></script>
     <!-- 官网提供的axios在线地址 -->

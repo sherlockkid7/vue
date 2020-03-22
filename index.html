@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,58 +31,22 @@
                     <ul class="song_header">
                         <li class="music_name">歌曲</li>
                         <li class="music_author">歌手</li>
-                        <!-- <li class="music_timer">时长</li> -->
                     </ul>
                     <ul class="song_list">
                         <li v-for="(item,index) in musicList" class="song-li clearfix">
                             <div class="song_index item">
-                                <span>{{index+1}}</span>
+                                <span v-cloak>{{index+1}}</span>
                             </div>
                             <div class="song_name item">
                                 <a @click="playerMusic(item.id)" class="musicplay
                                 song_player"></a>
-                                <span>{{item.name}}</span>
+                                <span v-cloak>{{item.name}}</span>
                                 <i v-if="item.mvid!=0" class="iconfont icon-bofang1" @click="mvPlay(item.mvid)"></i>
                             </div>
-                            <div class="songer item">
+                            <div class="songer item" v-cloak>
                                 {{item.artists[0].name}}
                             </div>
-                            <!-- <div class="song_timer item">
-                                04:46
-                            </div> -->
                         </li>
-                        <!-- <li class=" clearfix">
-                            <div class="song_index item">
-                                <span>1</span>
-                            </div>
-                            <div class="song_name item">
-                                <i class="iconfont  icon-bofang song_player"></i>
-                                <span>老友记</span>
-                                <i class="iconfont icon-bofang1"></i>
-                            </div>
-                            <div class="songer item">
-                                李荣浩
-                            </div>
-                            <div class="song_timer item">
-                                04:46
-                            </div>
-                        </li>
-                        <li class=" clearfix">
-                            <div class="song_index item">
-                                <span>1</span>
-                            </div>
-                            <div class="song_name item">
-                                <i class="iconfont  icon-bofang song_player"></i>
-                                <span>老友记</span>
-                                <i class="iconfont icon-bofang1"></i>
-                            </div>
-                            <div class="songer item">
-                                李荣浩
-                            </div>
-                            <div class="song_timer item">
-                                04:46
-                            </div>
-                        </li> -->
                     </ul>
                 </aside>
                 <div class="xhr">
@@ -122,16 +86,15 @@
                 <div class="main_content">
                     <div class="main_bg" :class="{playing:isPlaying}">
                         <img :src="musicCover" alt="">
-                        <!-- <img src="./img/test.jpg" alt=""> -->
                         <a class="main_music">
                         </a>
                     </div>
                     <div class="music_txt">
-                        <h2 class="musicname">
+                        <h2 class="musicname" v-cloak>
                             {{musicTxt}}
                         </h2>
-                        <p>歌手：<a href="">{{musicSinger}}</a></p>
-                        <p>所属专辑：<a href="">{{musicEdi}}</a></p>
+                        <p>歌手：<a href="" v-cloak>{{musicSinger}}</a></p>
+                        <p>所属专辑：<a href="" v-cloak>{{musicEdi}}</a></p>
                     </div>
                     <div class="comment">
                         <h3>精彩评论</h3>
@@ -142,60 +105,18 @@
                                 </div>
                                 <div class="user_txt">
                                     <div class="user_top">
-                                        <a href="">{{item.user.nickname}}</a>
-                                        <span>:{{item.content}}</span>
+                                        <a href="" v-cloak>{{item.user.nickname}}</a>
+                                        <span v-cloak>:{{item.content}}</span>
                                     </div>
                                     <div class="user_bottom">
                                         <span></span>
-                                        <a href="">
+                                        <a href="" v-cloak>
                                             <i class="iconfont icon-dianzan"></i> {{item.likedCount}}
                                             <span>|</span> 回复
                                         </a>
                                     </div>
                                 </div>
                             </li>
-                            <!-- <li class="clearfix">
-                                <div class="user">
-                                    <img src="./img/user.jpg" alt="">
-                                </div>
-                                <div class="user_txt">
-                                    <div class="user_top">
-                                        <a href="">浓烟下的老康</a>
-                                        <span>:原作曲人的诠释，直戳人心。有人问过井上：为什么不让湘北夺冠。井上回答道：因为青春的梦想往往是不完美的。
-                                            我想，打动我们的也许不是这首歌，而是我们那不完美又值得怀念的青春。</span>
-                                    </div>
-                                    <div class="user_bottom">
-                                        <span>2015年2月1日</span>
-                                        <a href="">
-                                            <i class="iconfont icon-dianzan"></i>
-                                            (666)
-                                            <span>|</span>
-                                            回复
-                                        </a>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="clearfix">
-                                <div class="user">
-                                    <img src="./img/user.jpg" alt="">
-                                </div>
-                                <div class="user_txt">
-                                    <div class="user_top">
-                                        <a href="">浓烟下的老康</a>
-                                        <span>:原作曲人的诠释，直戳人心。有人问过井上：为什么不让湘北夺冠。井上回答道：因为青春的梦想往往是不完美的。
-                                            我想，打动我们的也许不是这首歌，而是我们那不完美又值得怀念的青春。</span>
-                                    </div>
-                                    <div class="user_bottom">
-                                        <span>2015年2月1日</span>
-                                        <a href="">
-                                            <i class="iconfont icon-dianzan"></i>
-                                            (666)
-                                            <span>|</span>
-                                            回复
-                                        </a>
-                                    </div>
-                                </div>
-                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -217,9 +138,9 @@
                 </div>
                 <div class="player_progress playli clearfix">
                     <div class="musictxt">
-                        <a href="">{{musicTxt}}</a>
+                        <a href="" v-cloak>{{musicTxt}}</a>
                         <!-- 需要设置长度超出隐藏 -->
-                        <span>&nbsp;&nbsp;{{musicSinger}}</span>
+                        <span v-cloak>&nbsp;&nbsp;{{musicSinger}}</span>
                         <span class="pro_time">
                             <em class="current">00:00</em>
                             / <em class="total">00:00</em>
@@ -258,12 +179,6 @@
             <video :src="mvUrl" controls="controls"></video>
         </div>
     </div>
-    <!-- <div class="test_audio">
-            <div class="audio_box">
-                <audio :src="musicUrl" controls="controls" autoplay="autoplay" loop="loop">
-                    Your browser does not support the audio tag.
-                </audio>
-            </div> -->
     </div>
     </div>
     <div class="demolist">
@@ -290,10 +205,6 @@
     <script>
         // 使用jquery写的js
         // 计算时分秒
-        // var $audio = $("audio");
-        // var player = new Player($audio);
-        // var index = musicId;
-        // var music = musicUrl;
         var audio = $("audio").get(0);
 
         function computTime(time) {
